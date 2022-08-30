@@ -1,7 +1,12 @@
 FactoryBot.define do
   factory :customer_list do
-    list { nil }
-    filename { "my_customers.txt" }
+    filename { nil }
+    after(:build) do |customer_list|
+      customer_list.list.attach(
+        io: File.open(Rails.root.join("spec", "test_data", "commas.txt")),
+        filename: "commas.txt"
+      )
+    end
   end
 
   factory :customer_record do
