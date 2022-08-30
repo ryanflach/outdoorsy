@@ -43,6 +43,7 @@ group :development, :test do
   gem "shoulda-matchers", "~> 5.0"
   gem "factory_bot_rails", "~> 6.2.0"
   gem "pry-rails", "~> 0.3.9"
+  gem "database_cleaner-active_record", "~> 2.0.1"
 end
 
 group :development do
