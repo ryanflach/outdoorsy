@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_08_30_221229) do
+ActiveRecord::Schema[7.0].define(version: 2022_08_30_232350) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -58,8 +58,11 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_30_221229) do
     t.integer "vehicle_length"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "customer_list_id"
+    t.index ["customer_list_id"], name: "index_customer_records_on_customer_list_id"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "customer_records", "customer_lists"
 end

@@ -16,5 +16,6 @@ FactoryBot.define do
     vehicle_name { "Sophie" }
     vehicle_type  { "sailboat" }
     vehicle_length { 78 }
+    customer_list
   end
 end

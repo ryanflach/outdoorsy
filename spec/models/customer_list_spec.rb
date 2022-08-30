@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe CustomerList, type: :model do
   describe "validations" do
     it { should have_one_attached(:list) }
+    it { should have_many(:customer_records).dependent(:destroy) }
 
     context "list file types" do
       let(:some_unsupported_file_types) { %w(csv doc pdf xlsx) }
