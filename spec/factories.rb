@@ -1,4 +1,9 @@
 FactoryBot.define do
+  factory :customer_list do
+    list { nil }
+    filename { "my_customers.txt" }
+  end
+
   factory :customer_record do
     first_name { "Jack" }
     last_name { "Aubrey" }
