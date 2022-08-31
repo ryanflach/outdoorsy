@@ -1,31 +1,30 @@
 require 'rails_helper'
 
-RSpec.describe CustomerLoader do
-  describe ".process_file!" do
-    shared_examples "a file with a valid delimiter" do |filename|
-      before(:all) do
-        create(:customer_record)
-        CustomerLoader.process_file!(filename)
+RSpec.describe CustomerListProcessor do
+  describe ".process_file" do
+    shared_examples "a file with a valid delimiter" do |file_path|
+      let(:customer_list) do
+        CustomerList.new.tap do |customer_list|
+          customer_list.list.attach(io: File.open(file_path), filename: "sample.txt")
+          customer_list.save
+        end
       end
-
       let(:num_records_in_test_file) { 4 }
       let(:expected_sample_record) do
         {
-          first_name: "Ansel",
-          last_name: "Adams",
-          email: "a@adams.com",
-          vehicle_type: "motorboat",
-          vehicle_name: "Rushing Water",
+          first_name: "ANSEL",
+          last_name: "ADAMS",
+          email: "A@ADAMS.COM",
+          vehicle_type: "MOTORBOAT",
+          vehicle_name: "RUSHING WATER",
           vehicle_length: 24
         }
       end
 
-      it "should remove existing records" do
-        expect(CustomerRecord.count).to eq(num_records_in_test_file)
-      end
+      it "should parse the file and store the formatted values in the records" do
+        CustomerListProcessor.process_list(customer_list, customer_list.send(:list_file_path))
 
-      it "should parse the file and store the correct values in the records" do
-        sample_record = CustomerRecord.find_by(email: expected_sample_record[:email])
+        sample_record = customer_list.customer_records.find_by(email: expected_sample_record[:email])
 
         expect(sample_record.first_name).to eq(expected_sample_record[:first_name])
         expect(sample_record.last_name).to eq(expected_sample_record[:last_name])

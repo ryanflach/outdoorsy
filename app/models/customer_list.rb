@@ -7,6 +7,15 @@ class CustomerList < ApplicationRecord
   validate :list_is_of_valid_type
   validates :filename, uniqueness: true
 
+  def num_records
+    customer_records.count
+  end
+
+  def process_list
+    CustomerListProcessor.process_list(self, list_file_path)
+    self
+  end
+
   private
 
   SUPPORTED_LIST_FILE_TYPE = "txt".freeze
@@ -23,5 +32,9 @@ class CustomerList < ApplicationRecord
 
   def set_filename
     self.filename = list.attached? ? list.filename.sanitized : ""
+  end
+
+  def list_file_path
+    ActiveStorage::Blob.service.path_for(list.key)
   end
 end
