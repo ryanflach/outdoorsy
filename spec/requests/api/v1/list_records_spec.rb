@@ -37,12 +37,16 @@ RSpec.describe "Api::V1::ListRecords", type: :request do
         let(:list_id) { 666 }
         before { subject }
 
-        it "returns an empty response body" do
-          expect(JSON.parse(response.body)).to be_empty
+        it "returns an error in the response body" do
+          expect(JSON.parse(response.body)).to eq(
+            {
+              "errors" => ["CustomerList does not exist"]
+            }
+          )
         end
 
-        it "returns an OK status" do
-          expect(response).to have_http_status(:ok)
+        it "returns a not_found status" do
+          expect(response).to have_http_status(:not_found)
         end
       end
     end
