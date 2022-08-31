@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   namespace :api, default: { format: :json } do
     namespace :v1 do
       resources :customer_lists, only: %i[create destroy], shallow: true do
-        resources :customer_records, only: :index
+        resources :list_records, only: :index
       end
     end
   end

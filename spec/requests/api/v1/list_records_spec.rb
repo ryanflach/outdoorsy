@@ -1,8 +1,8 @@
 require 'rails_helper'
 
-RSpec.describe "Api::V1::CustomerRecords", type: :request do
+RSpec.describe "Api::V1::ListRecords", type: :request do
   describe "GET /index" do
-    subject { get "/api/v1/customer_lists/#{list_id}/customer_records" }
+    subject { get "/api/v1/customer_lists/#{list_id}/list_records" }
 
     context "without ordering" do
       context "with a found list" do
