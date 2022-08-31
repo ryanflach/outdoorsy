@@ -10,11 +10,11 @@ FactoryBot.define do
   end
 
   factory :customer_record do
-    first_name { "Jack" }
-    last_name { "Aubrey" }
-    email { "themasterandthecommander@sail.me" }
-    vehicle_name { "Sophie" }
-    vehicle_type  { "sailboat" }
+    first_name { "JACK" }
+    last_name { "AUBREY" }
+    email { "THEMASTERANDTHECOMMANDER@SAIL.ME" }
+    vehicle_name { "SOPHIE" }
+    vehicle_type  { "SAILBOAT" }
     vehicle_length { 78 }
     customer_list
   end
