@@ -2,7 +2,7 @@ class CustomerList < ApplicationRecord
   has_one_attached :list
   has_many :customer_records, dependent: :destroy
 
-  before_validation :set_filename
+  before_validation :set_filename, on: :create
   validate :list_attached
   validate :list_is_of_valid_type
   validates :filename, uniqueness: true
