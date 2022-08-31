@@ -78,22 +78,42 @@ RSpec.describe "Api::V1::CustomerLists", type: :request do
   end
 
   describe "DELETE /destroy" do
-    let!(:existing_customer_list) { create(:customer_list) }
-    let!(:existing_list_customer_record) do
-      create(:customer_record, customer_list: existing_customer_list)
+    subject { delete "/api/v1/customer_lists/#{list_id}" }
+
+    context "with a found list" do
+      let!(:existing_customer_list) { create(:customer_list) }
+      let!(:existing_list_customer_record) do
+        create(:customer_record, customer_list: existing_customer_list)
+      end
+      let(:list_id) { existing_customer_list.id }
+
+      it "destroys the list and associated customer records with a no_content status" do
+        expect { subject }
+          .to change { CustomerList.count }.from(1).to(0)
+          .and change { CustomerRecord.count }.from(1).to(0)
+      end
+
+      it "returns a no_content status" do
+        subject
+        expect(response).to have_http_status(:no_content)
+      end
     end
 
-    subject { delete "/api/v1/customer_lists/#{existing_customer_list.id}" }
+    context "without a found list" do
+      let(:list_id) { 9999 }
+      before { subject }
 
-    it "destroys the list and associated customer records with a no_content status" do
-      expect { subject }
-        .to change { CustomerList.count }.from(1).to(0)
-        .and change { CustomerRecord.count }.from(1).to(0)
-    end
+      it "returns an error in the response body" do
+        expect(JSON.parse(response.body)).to eq(
+          {
+            "errors" => ["CustomerList does not exist"]
+          }
+        )
+      end
 
-    it "returns a no_content status" do
-      subject
-      expect(response).to have_http_status(:no_content)
+      it "returns a not_found status" do
+        expect(response).to have_http_status(:not_found)
+      end
     end
   end
 end

@@ -10,8 +10,13 @@ class Api::V1::CustomerListsController < ApplicationController
   end
 
   def destroy
-    CustomerList.find(params[:id]).destroy
-    head :no_content
+    list = CustomerList.where(id: params[:id]).first
+    if list.present?
+      list.destroy
+      head :no_content
+    else
+      render json: { errors: ["CustomerList does not exist"] }, status: :not_found
+    end
   end
 
   private

@@ -34,7 +34,7 @@ RSpec.describe "Api::V1::ListRecords", type: :request do
       end
 
       context "without a found list" do
-        let(:list_id) { 666 }
+        let(:list_id) { 9999 }
         before { subject }
 
         it "returns an error in the response body" do
