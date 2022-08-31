@@ -26,6 +26,7 @@ class CustomerListProcessor
 
   def parse_file_and_create_customer_records
     file = File.readlines(@list_file_path).lazy
+    return if file.first.blank?
     delimiter = file.first.match(SUPPORTED_DELIMITERS)[0]
     build_customer_records(file, delimiter)
   end
